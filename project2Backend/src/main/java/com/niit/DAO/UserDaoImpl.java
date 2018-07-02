@@ -1,4 +1,6 @@
-package com.niit.DAO;
+package com.niit.dao;
+
+import java.util.List;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -14,44 +16,54 @@ import com.niit.model.User;
 public class UserDaoImpl implements UserDao {
 	@Autowired
 private SessionFactory sessionFactory;
-	public  boolean registration(User user) {
-		Session session=sessionFactory.getCurrentSession();
-		session.save(user);
-		return true;
-	}
-	public boolean isEmailUnique(String email) {
-		Session session=sessionFactory.getCurrentSession();
-		//select * from User_s180396 where email='james.s@abc.com"
-		Query query=session.createQuery("from User where email=?");
-		query.setString(0, email);
-		User user=(User)query.uniqueResult();
-		//if user==null, then entered email id doesnt exists in the table
-		//which means it is unique
-		
-		//if user!=null, then entered email already exists
-		//which means email is not unique
-		if(user!=null)//NOT UNIQUE
+
+	@Override
+	public boolean registerUser(User userDetail) {
+		try
+		{
+			sessionFactory.getCurrentSession().save(userDetail);
+			return true;
+		}
+		catch(Exception e)
+		{
+			System.out.println("Exception Arised:"+e);
 			return false;
-		else
-			return true; //UNIQUE
+		}
 	}
-	public User login(User user) {//user is input from client
-		Session session=sessionFactory.getCurrentSession();
-		Query query=session.createQuery("from User where email=:email and password=:password");
-		query.setString("email", user.getEmailid());
-		query.setString("password", user.getPassword());
-		User validUser=(User)query.uniqueResult(); //validUser is the result of the query
-		return validUser; //validUser is either null or 1 object
+
+	@Override
+	public boolean updateUser(User userDetail) {
+		try
+		{
+			sessionFactory.getCurrentSession().update(userDetail);
+			return true;
+		}
+		catch(Exception e)
+		{
+			System.out.println("Exception Arised:"+e);
+			return false;
+		}
 	}
-	public void updateUser(User user) {
-		Session session=sessionFactory.getCurrentSession();
-		session.update(user);
-		
+
+	@Override
+	public User getUser(String loginname) {
+		Session session=sessionFactory.openSession();
+		User userDetail=(User)session.get(User.class,loginname);
+		session.close();
+		return userDetail;
 	}
-	public User getUser(String email) {
-		Session session=sessionFactory.getCurrentSession();
-		User user=(User)session.get(User.class, email);
-		return user;
+
+	@Override
+	public User checkUser(User userDetail) {
+		Session session=sessionFactory.openSession();
+		Query query=session.createQuery("from User where loginname=:myloginname and password=:password");
+		query.setParameter("myloginname", userDetail.getLoginname());
+		query.setParameter("password",userDetail.getPassword());
+		List<User> listUser=query.list();
+		User userDetail1=listUser.get(0);
+		session.close();
+		return userDetail1;
 	}
+	
 
 }

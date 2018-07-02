@@ -12,7 +12,7 @@ import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBuilder;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import com.niit.DAO.*;
+import com.niit.dao.*;
 import com.niit.model.*;
 
 @Configuration
@@ -21,18 +21,27 @@ public class DBconfiguration {
 	public DBconfiguration() {
 		System.out.println("dbconfig instantiated");
 	}
-	@Bean
-	public SessionFactory sessionFactory() {
-		LocalSessionFactoryBuilder lsf=
-				new LocalSessionFactoryBuilder(getDataSource());
-		Properties hibernateProperties=new Properties();
-		hibernateProperties.setProperty(
-				"hibernate.dialect", "org.hibernate.dialect.Oracle10gDialect");
-		hibernateProperties.setProperty("hibernate.hbm2ddl.auto", "update");
-		hibernateProperties.setProperty("hibernate.show_sql", "true");
-		lsf.addProperties(hibernateProperties);
-		Class classes[]=new Class[]{User.class};
-	    return lsf.addAnnotatedClasses(classes).buildSessionFactory();
+	@Bean(name="sessionFactory")
+	public SessionFactory getSessionFactory()
+	{
+		
+		Properties hibernateProp=new Properties();
+		hibernateProp.put("hibernate.hbmddl2.auto","update");
+		hibernateProp.put("hibernate.dialect", "org.hibernate.dialect.Oracle10gDialect");
+		
+		LocalSessionFactoryBuilder sessionFactoryBuilder=new LocalSessionFactoryBuilder(getDataSource());
+		sessionFactoryBuilder.addProperties(hibernateProp);
+		
+		sessionFactoryBuilder.addAnnotatedClass(Blog.class);
+		sessionFactoryBuilder.addAnnotatedClass(ProfilePicture.class);
+		sessionFactoryBuilder.addAnnotatedClass(User.class);
+		sessionFactoryBuilder.addAnnotatedClass(BlogComment.class);
+		sessionFactoryBuilder.addAnnotatedClass(Job.class);
+
+
+		SessionFactory sessionFactory=sessionFactoryBuilder.buildSessionFactory();
+		System.out.println("SessionFactory Object");
+		return sessionFactory;
 	}
 	@Bean
 	public DataSource getDataSource() {
@@ -45,8 +54,10 @@ public class DBconfiguration {
 	    
 	}
 	@Bean
-	public HibernateTransactionManager hibTransManagement(){
-		return new HibernateTransactionManager(sessionFactory());
+	public HibernateTransactionManager getHibernateTransactionManager(SessionFactory sessionFactory)
+	{
+		System.out.println("Hibernate Object");
+		return new HibernateTransactionManager(sessionFactory);
 	}
 
 	@Bean(name="userDao")
@@ -56,5 +67,29 @@ public class DBconfiguration {
 		
 	}
 	
+	@Bean(name="jobDao")
+	public JobDao getJobDao()
+	{
+		System.out.println("JOB BEAN CREATED");
+		return new JobDaoImpl();
+	}
+	@Bean(name="blogDao")
+	public BlogDao addBlog()
+	{
+		System.out.println("BLOG BEAN CREATEDD");
+		return new BlogDaoImpl();
+	}
+	@Bean(name="blogCommentDao")
+	public BlogCommentDao getBlogComment()
+	{
+		System.out.println("BLOG COMMENT BEAN CREATEDD");
+		return new BlogCommentDaoImpl();
 	
+}
+	@Bean(name="profilePictureDao")
+	public ProfilePictureDao getProfilePictureDao()
+	{
+		System.out.println("PROFILE PICTURE BEAN CREATEDD");
+		return new ProfilePictureDaoImpl();
+}
 }
