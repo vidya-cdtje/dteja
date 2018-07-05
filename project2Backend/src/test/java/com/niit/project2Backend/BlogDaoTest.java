@@ -36,7 +36,7 @@ public class BlogDaoTest
 		blog.setCreateDate(new java.util.Date());
 		blog.setLikes(1);
 		blog.setDislikes(1);
-		blog.setLoginname("kiran");
+		blog.setLoginname("vi");
 		blog.setStatus("NA");
 		
 		assertTrue("Problem in Blog Insertion",blogDao.addBlog(blog));
@@ -45,14 +45,14 @@ public class BlogDaoTest
 	@Test
 	public void deleteBlogTest()
 	{
-		Blog blog=blogDao.getBlog(973);
+		Blog blog=blogDao.getBlog(3300);
 		assertTrue("Problem in Blog Deletion:",blogDao.deleteBlog(blog));
 	}
 	@Ignore
 	@Test
 	public void updateBlogTest()
 	{
-		Blog blog=blogDao.getBlog(952);
+		Blog blog=blogDao.getBlog(3350);
 		
 		blog.setBlogName("JAVA SE");
 		blog.setLikes(2);
@@ -76,26 +76,26 @@ public class BlogDaoTest
 	@Test
 	public void approveBlogTest()
 	{
-		assertTrue("Problem in Approving Blog",blogDao.approveBlog(974));
+		assertTrue("Problem in Approving Blog",blogDao.approveBlog(3340));
 	}
 	@Ignore
 	@Test
 	public void rejectBlogTest()
 	{
-		assertTrue("Problem in Approving Blog",blogDao.rejectBlog(972));
+		assertTrue("Problem in Approving Blog",blogDao.rejectBlog(3340));
 	}
 	@Ignore
 	@Test
 	public void incrementLikeBlogTest()
 	{
-		assertTrue("Problem in Incrementing Blog:",blogDao.incLikes(952));
+		assertTrue("Problem in Incrementing Blog:",blogDao.incLikes(3300));
 	}
 	@Ignore
 	@Test
 	public void disLikeBlogTestCase()
 	{
 		List<Blog> listBlogs=blogDao.listBlogs();
-		assertTrue("Problem in Decrementing Likes Blog:",blogDao.disLikes(974));
+		assertTrue("Problem in Decrementing Likes Blog:",blogDao.disLikes(3300));
 	}
 	
 }
