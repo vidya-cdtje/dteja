@@ -41,7 +41,7 @@ public class BlogCommentDaoTest
 	@Test
 	public void listBlogCommentTest()
 	{
-		List<BlogComment> listComments=blogCommentDao.getAllComments(974);
+		List<BlogComment> listComments=blogCommentDao.getAllComments(50);
 		
 		assertTrue("Problem in Listing BlogComments:",listComments.size()>0);
 		
