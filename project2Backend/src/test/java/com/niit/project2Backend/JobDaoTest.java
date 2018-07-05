@@ -34,7 +34,7 @@ public class JobDaoTest {
 		Job job =new Job();
 		
 		job.setJobDesignation("programmer");
-		job.setCompany("blue");
+		job.setCompany("globalsoft");
 		job.setSalary(50000);
 		job.setLocation("mumbai");
 		job.setLastDateToApply(new java.util.Date());
