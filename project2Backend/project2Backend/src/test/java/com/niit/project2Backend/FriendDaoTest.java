@@ -34,5 +34,30 @@ public class FriendDaoTest
 		
 		assertTrue("problem in sending friend request", friendDao.sendFrienRequest(friend));
 	}
+	@Ignore
+	@Test
+	public void acceptFriendRequest()
+	{
+		assertTrue("problem in sending friend request", friendDao.acceptFrienRequest(100));
+	}
+	@Ignore
+	@Test
+	public void deleteFriendRequest()
+	{
+		assertTrue("problem in sending friend request", friendDao.deleteFrienRequest(150));
+	}
+	//@Ignore
+	@Test
+	public void showPendingFriendRequests() {
+		List<Friend> listPendingFriendRequests=friendDao.showPendingFriendRequests("vijay");
+		assertTrue("problem in listing pendingfriend request", listPendingFriendRequests.size()>0);
+		for(Friend friend:listPendingFriendRequests) {
+			System.out.print(friend.getLoginname()+":");
+			System.out.print(friend.getFriendloginname());
+			
+		}
+
+	}
+
 
 }
