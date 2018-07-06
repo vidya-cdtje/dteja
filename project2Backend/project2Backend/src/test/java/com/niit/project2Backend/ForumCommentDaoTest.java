@@ -1,4 +1,4 @@
-package com.niit.Backend;
+package com.niit.project2Backend;
 
 import static org.junit.Assert.*;
 
