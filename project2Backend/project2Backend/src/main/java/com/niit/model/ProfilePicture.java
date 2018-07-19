@@ -12,9 +12,7 @@ import javax.persistence.Table;
 
 public class ProfilePicture {
 	@Id
-	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="profilepictureidseq")
-
-	private String loginname;
+        private String loginname;
 	private byte[] image;
 	public String getLoginname() {
 		return loginname;
