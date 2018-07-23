@@ -11,7 +11,9 @@
   6. Friend
   7. Forum
   8. ForumComment
-  
+##### Chat:
+  1. Message
+  2. Output Message
  
   
  
